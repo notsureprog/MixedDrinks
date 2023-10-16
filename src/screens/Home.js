@@ -10,6 +10,9 @@ function Home({ navigation }) {
             <Pressable onPress={() => navigation.navigate({ name: `SearchDrinkByLetter` })}>
                 <Text>Search for a Driink By Letter</Text>
             </Pressable>
+            <Pressable onPress={() => navigation.navigate({ name: `SearchIngredients` })}>
+                <Text>Search for Ingredients</Text>
+            </Pressable>
         </View>
     )
 }
