@@ -4,6 +4,14 @@ import axios from 'axios'
 
 // https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a
 function SearchDrinkByLetter() {
+    const drinkReducer = (state, action) => {
+        switch (action.type) {
+            case 'NEXT_PAGE':
+                return { index: state.index + 1 }
+            case 'PREV_PAGE':
+                return { index: state.index - 1 }
+        }
+    }
     const [state, dispatch] = React.useReducer(drinkReducer, { index: 0 })
     const [letter, setLetter] = React.useState(null)
     console.log(letter)
@@ -39,14 +47,8 @@ function SearchDrinkByLetter() {
         { key: 'z', value: 'z' },
     ]
 
-    const drinkReducer = () => {
-        switch (state, action) {
-            case 'NEXT_PAGE':
-                return { index: state.index + 1 }
-            case 'PREV_PAGE':
-                return { index: state.index - 1 }
-        }
-    }
+   
+
 
     const GetDrink = async () => {
         if (loading) {
@@ -86,19 +88,35 @@ function SearchDrinkByLetter() {
     }
 
     const DisplayDrinks = ({ main }) => {
+
         return (
             <View>
-                <Image style={{ width: 50, height: 50 }} source={{ uri: `${data.drinks[state.index].strDrinkThumb}` }} />
+
+                <Image style={{ width: 150, height: 150 }} source={{ uri: `${data.drinks[state.index].strDrinkThumb}` }} />
                 <Text>Instructions: {data.drinks[state.index].strInstructions}</Text>
-            </View>
+                {state.index === 0 &&
+                    <View>
+                        <Pressable onPress={() => dispatch({ type: 'NEXT_PAGE' })}>
+                            <Text>Next Page</Text>
+                        </Pressable>
+
+
+                        <Pressable onPress={() => dispatch({ type: 'PREV_PAGE' })}>
+                            <Text>Previous Page</Text>
+                        </Pressable>
+                    </View>
+                }
+
+
+            </View >
         )
     }
 
     const renderItem = ({ item }) => (
         <View>
-            {data !== null && !loading &&
+            
                 <DisplayDrinks main={item} />
-            }
+            
         </View>
     )
 

@@ -1,8 +1,7 @@
 import React, { useReducer } from 'react'
 import { View, Text, Pressable, TextInput, Image, FlatList } from 'react-native'
 import axios from 'axios'
-
-
+// import {drinkReducer} from '../../tired/drinkReducer'
 function SearchDrinkScreen() {
     const drinkReducer = (state, action) => {
         switch (action.type) {
@@ -11,7 +10,6 @@ function SearchDrinkScreen() {
             case 'PREV_DRINK':
                 return { index: state.index - 1 }
         }
-
     }
     const [search, setSearch] = React.useState(null)
     const [loading, setLoading] = React.useState(false)
