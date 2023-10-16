@@ -124,6 +124,7 @@ function SearchDrinkScreen() {
 
     )
 
+    
     React.useEffect(() => {
         GetDrink()
     }, [loading, view])
