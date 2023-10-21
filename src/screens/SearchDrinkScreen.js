@@ -9,6 +9,8 @@ function SearchDrinkScreen() {
                 return { index: state.index + 1 }
             case 'PREV_DRINK':
                 return { index: state.index - 1 }
+            case 'RESET':
+                return { index: 0 }
         }
     }
     const [search, setSearch] = React.useState(null)
@@ -63,7 +65,7 @@ function SearchDrinkScreen() {
         // }
         return (
             <View>
-                {data !== null && !loading &&
+                {data.drinks !== null && !loading &&
                     <View>
                         {state.index >= 0 &&
                             <View>
@@ -88,7 +90,7 @@ function SearchDrinkScreen() {
                                         </Pressable>
                                     </View>
                                 }
-                                {state.index > 0 && state.index <= main.drinks.length - 1 &&
+                                {state.index !== 0 && state.index < main.drinks.length - 1 &&
                                     <View>
                                         <Pressable onPress={() => dispatch({ type: 'NEXT_DRINK' })}>
                                             <Text>Next Drink</Text>
@@ -107,10 +109,7 @@ function SearchDrinkScreen() {
             </View >
         )
     }
-    if (data !== null) {
-
-        console.log(data.drinks.length)
-    }
+    
 
     const renderItem = ({ item }) => (
         <View>
@@ -124,13 +123,14 @@ function SearchDrinkScreen() {
 
     )
 
-    
+
     React.useEffect(() => {
         GetDrink()
     }, [loading, view])
 
     const handleSubmit = () => {
         setLoading(true)
+        dispatch({ type: 'RESET' })
 
     }
     return (
@@ -158,6 +158,12 @@ function SearchDrinkScreen() {
                             <Text>Find Drink</Text>
                         </Pressable>
                     </View>
+                }
+                {loading &&
+                    <Text>Loading... Please Wait</Text>
+                }
+                {data === null && search !== null &&
+                    <Text>No results found...</Text>
                 }
             </View>
         </View>

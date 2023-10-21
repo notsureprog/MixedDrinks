@@ -3,7 +3,7 @@ import { View, Text, Pressable, TextInput, FlatList, Image } from 'react-native'
 import axios from 'axios'
 
 // https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a
-function SearchDrinkByLetter() {
+function SearchDrinkByLetter({navigation}) {
     const drinkReducer = (state, action) => {
         switch (action.type) {
             case 'NEXT_PAGE':
@@ -47,7 +47,7 @@ function SearchDrinkByLetter() {
         { key: 'z', value: 'z' },
     ]
 
-   
+
 
 
     const GetDrink = async () => {
@@ -91,32 +91,38 @@ function SearchDrinkByLetter() {
 
         return (
             <View>
-
-                <Image style={{ width: 150, height: 150 }} source={{ uri: `${data.drinks[state.index].strDrinkThumb}` }} />
-                <Text>Instructions: {data.drinks[state.index].strInstructions}</Text>
-                {state.index === 0 &&
+                {data.drinks !== null &&
                     <View>
-                        <Pressable onPress={() => dispatch({ type: 'NEXT_PAGE' })}>
-                            <Text>Next Page</Text>
-                        </Pressable>
+
+                        <Image style={{ width: 150, height: 150 }} source={{ uri: `${data.drinks[state.index].strDrinkThumb}` }} />
+                        <Text>Instructions: {data.drinks[state.index].strInstructions}</Text>
+                        {state.index === 0 &&
+                            <View>
+                                <Pressable onPress={() => dispatch({ type: 'NEXT_PAGE' })}>
+                                    <Text>Next Page</Text>
+                                </Pressable>
 
 
-                        <Pressable onPress={() => dispatch({ type: 'PREV_PAGE' })}>
-                            <Text>Previous Page</Text>
-                        </Pressable>
+                                <Pressable onPress={() => dispatch({ type: 'PREV_PAGE' })}>
+                                    <Text>Previous Page</Text>
+                                </Pressable>
+                            </View>
+                        }
                     </View>
                 }
-
-
+                {/* I could do data, but I just want to exit for now. */}
+                <Pressable onPress={() => navigation.pop()}>
+                    <Text>Go Back</Text>
+                </Pressable>
             </View >
         )
     }
 
     const renderItem = ({ item }) => (
         <View>
-            
-                <DisplayDrinks main={item} />
-            
+
+            <DisplayDrinks main={item} />
+
         </View>
     )
 
